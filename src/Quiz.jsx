@@ -45,7 +45,7 @@ export default function Quiz({ mode, onBack }) {
       </form>
       {result === 'right' && <p className="right">✓ Correct: {q.answerText}</p>}
       {result === 'wrong' && <p className="wrong">✗ Answer: {q.answerText}</p>}
-      {result === 'invalid' && <p className="wrong">Couldn't read that key. Try e.g. 8A, F#m, Db major.</p>}
+      {result === 'invalid' && <p className="wrong">Couldn't read that key. Try e.g. 8A, F#m, DbM.</p>}
     </main>
   )
 }

@@ -17,7 +17,7 @@ export function toTraditional({ pc, minor }) {
   let name = NOTE_NAMES[pc]
   if (minor && pc === 1) name = 'C#' // C#m reads nicer than Dbm
   if (minor && pc === 3) name = 'Eb'
-  return name + (minor ? 'm' : '')
+  return name + (minor ? 'm' : 'M')
 }
 
 export function fromCamelot(num, letter) {
@@ -25,7 +25,7 @@ export function fromCamelot(num, letter) {
   return { pc: table.indexOf(num), minor: letter === 'A' }
 }
 
-// Forgiving parser: "8a", "A minor", "a min", "Db", "C#maj", "f♯m", "Bb major"
+// Forgiving parser: "8a", "A minor", "a min", "DbM", "C#maj", "f♯m", "Bb major"
 export function parseKey(input) {
   let s = String(input).trim().replace(/♯/g, '#').replace(/♭/g, 'b').replace(/\s+/g, '')
   const cam = s.match(/^(\d{1,2})([ab])$/i)
@@ -40,10 +40,12 @@ export function parseKey(input) {
   if (m[2] === '#') pc += 1
   if (m[2] === 'b') pc -= 1
   pc = (pc + 12) % 12
-  const q = m[3].toLowerCase()
+  // "m" = minor, "M" = major; bare note (e.g. "B") is not a valid key
+  const raw = m[3]
+  const q = raw.toLowerCase()
   let minor
-  if (q === 'm' || q === 'min' || q === 'minor') minor = true
-  else if (q === '' || q === 'maj' || q === 'major') minor = false
+  if (raw === 'm' || q === 'min' || q === 'minor') minor = true
+  else if (raw === 'M' || q === 'maj' || q === 'major') minor = false
   else return null
   return { pc, minor }
 }

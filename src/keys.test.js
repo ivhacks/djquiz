@@ -2,10 +2,10 @@ import { describe, it, expect } from 'vitest'
 import { parseKey, toCamelot, toTraditional, transpose, sameKey } from './keys.js'
 
 const TABLE = {
-  '1A': 'Abm', '1B': 'B', '2A': 'Ebm', '2B': 'F#', '3A': 'Bbm', '3B': 'Db',
-  '4A': 'Fm', '4B': 'Ab', '5A': 'Cm', '5B': 'Eb', '6A': 'Gm', '6B': 'Bb',
-  '7A': 'Dm', '7B': 'F', '8A': 'Am', '8B': 'C', '9A': 'Em', '9B': 'G',
-  '10A': 'Bm', '10B': 'D', '11A': 'F#m', '11B': 'A', '12A': 'Dbm', '12B': 'E',
+  '1A': 'Abm', '1B': 'BM', '2A': 'Ebm', '2B': 'F#M', '3A': 'Bbm', '3B': 'DbM',
+  '4A': 'Fm', '4B': 'AbM', '5A': 'Cm', '5B': 'EbM', '6A': 'Gm', '6B': 'BbM',
+  '7A': 'Dm', '7B': 'FM', '8A': 'Am', '8B': 'CM', '9A': 'Em', '9B': 'GM',
+  '10A': 'Bm', '10B': 'DM', '11A': 'F#m', '11B': 'AM', '12A': 'Dbm', '12B': 'EM',
 }
 
 describe('camelot mapping', () => {
@@ -22,10 +22,12 @@ describe('parseKey', () => {
   it('is forgiving', () => {
     const am = parseKey('Am')
     for (const s of ['a minor', 'A min', ' a m ', '8a', '8A']) expect(parseKey(s)).toEqual(am)
-    expect(parseKey('C#')).toEqual(parseKey('Db major'))
+    expect(parseKey('C#M')).toEqual(parseKey('Db major'))
     expect(parseKey('f♯m')).toEqual(parseKey('Gbm'))
-    expect(parseKey('B♭ maj')).toEqual(parseKey('A#'))
-    expect(parseKey('Cb')).toEqual(parseKey('B'))
+    expect(parseKey('B♭ maj')).toEqual(parseKey('A#M'))
+    expect(parseKey('CbM')).toEqual(parseKey('BM'))
+    expect(parseKey('B')).toBeNull()
+    expect(parseKey('bm')).toEqual(parseKey('B minor'))
   })
   it('rejects junk', () => {
     for (const s of ['', 'H', '13A', '0B', 'Cx', 'C dorian']) expect(parseKey(s)).toBeNull()
