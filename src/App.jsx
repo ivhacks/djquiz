@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import Quiz from './Quiz.jsx'
-import { randomKey, toCamelot, toTraditional, transpose, describe } from './keys.js'
+import { randomKey, fromCamelot, toCamelot, toTraditional, transpose, describe } from './keys.js'
 
-function mappingQuestion() {
-  const key = randomKey()
+// max = highest Camelot number to quiz (1-12)
+function mappingQuestion(max = 12) {
+  const num = 1 + Math.floor(Math.random() * max)
+  const key = fromCamelot(num, Math.random() < 0.5 ? 'A' : 'B')
   const showCamelot = Math.random() < 0.5
   return {
     prompt: showCamelot ? toCamelot(key) : toTraditional(key),
@@ -28,7 +30,7 @@ function transposeQuestion() {
 }
 
 const MODES = [
-  { id: 'mappings', title: 'Mappings', blurb: 'Traditional ⇄ Camelot', make: mappingQuestion },
+  { id: 'mappings', title: 'Mappings', blurb: 'Traditional ⇄ Camelot', make: mappingQuestion, slider: true },
   { id: 'transpose', title: 'Transpose', blurb: 'Shift a key by semitones', make: transposeQuestion },
 ]
 
