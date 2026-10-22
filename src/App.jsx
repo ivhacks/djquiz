@@ -7,7 +7,7 @@ function mappingQuestion() {
   const showCamelot = Math.random() < 0.5
   return {
     prompt: showCamelot ? toCamelot(key) : toTraditional(key),
-    hint: showCamelot ? 'Type the traditional key (e.g. A minor, Db)' : 'Type the Camelot key (e.g. 8A)',
+    hint: showCamelot ? 'Type the traditional key (e.g. Am, DbM)' : 'Type the Camelot key (e.g. 8A)',
     answer: key,
     answerText: showCamelot ? toTraditional(key) : toCamelot(key),
     wantCamelot: !showCamelot,
